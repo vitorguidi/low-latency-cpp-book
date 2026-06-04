@@ -1,8 +1,10 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 cc_library(
     name = "matcher",
-    hdrs = glob(["*.h"]),
-    srcs = glob(["*.cpp"]),
-    strip_include_prefix = "exchange/matcher",
+    hdrs = glob(["*.h"], allow_empty = True),
+    srcs = glob(["*.cpp"], allow_empty = True),
+    strip_include_prefix = "/exchange/matcher",
     deps = ["//common"],
     visibility = ["//visibility:public"],
 )

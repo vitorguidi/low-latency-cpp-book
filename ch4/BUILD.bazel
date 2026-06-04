@@ -1,3 +1,5 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
 # Chapter 4 standalone examples — one binary per example file.
 # Each file has its own main(); they exercise the //common utilities directly.
 # Add a new entry here as you work through each section.

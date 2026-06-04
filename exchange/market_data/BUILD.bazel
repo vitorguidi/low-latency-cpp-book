@@ -1,8 +1,10 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 cc_library(
     name = "market_data",
-    hdrs = glob(["*.h"]),
-    srcs = glob(["*.cpp"]),
-    strip_include_prefix = "exchange/market_data",
+    hdrs = glob(["*.h"], allow_empty = True),
+    srcs = glob(["*.cpp"], allow_empty = True),
+    strip_include_prefix = "/exchange/market_data",
     deps = ["//common"],
     visibility = ["//visibility:public"],
 )

@@ -1,8 +1,10 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 cc_library(
     name = "order_gw",
-    hdrs = glob(["*.h"]),
-    srcs = glob(["*.cpp"]),
-    strip_include_prefix = "trading/order_gw",
+    hdrs = glob(["*.h"], allow_empty = True),
+    srcs = glob(["*.cpp"], allow_empty = True),
+    strip_include_prefix = "/trading/order_gw",
     deps = [
         "//common",
         # client_request.h / client_response.h live in the exchange

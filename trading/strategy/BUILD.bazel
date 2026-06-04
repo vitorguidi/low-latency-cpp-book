@@ -1,8 +1,10 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 cc_library(
     name = "strategy",
-    hdrs = glob(["*.h"]),
-    srcs = glob(["*.cpp"]),
-    strip_include_prefix = "trading/strategy",
+    hdrs = glob(["*.h"], allow_empty = True),
+    srcs = glob(["*.cpp"], allow_empty = True),
+    strip_include_prefix = "/trading/strategy",
     deps = [
         "//common",
         "//trading/market_data",
