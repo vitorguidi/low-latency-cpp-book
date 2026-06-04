@@ -1,0 +1,6 @@
+# Top-level build file — targets live in subdirectories.
+# Useful build commands:
+#   bazel build //exchange:exchange_main
+#   bazel build //trading:trading_main
+#   bazel build //benchmarks:all
+#   bazel build //...

@@ -1,0 +1,12 @@
+cc_library(
+    name = "market_data",
+    hdrs = glob(["*.h"]),
+    srcs = glob(["*.cpp"]),
+    strip_include_prefix = "trading/market_data",
+    deps = [
+        "//common",
+        # market_update.h lives in the exchange — needed to parse multicast frames
+        "//exchange/market_data",
+    ],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,12 @@
+cc_library(
+    name = "strategy",
+    hdrs = glob(["*.h"]),
+    srcs = glob(["*.cpp"]),
+    strip_include_prefix = "trading/strategy",
+    deps = [
+        "//common",
+        "//trading/market_data",
+        "//trading/order_gw",
+    ],
+    visibility = ["//visibility:public"],
+)

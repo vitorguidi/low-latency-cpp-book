@@ -1,0 +1,12 @@
+cc_library(
+    name = "order_gw",
+    hdrs = glob(["*.h"]),
+    srcs = glob(["*.cpp"]),
+    strip_include_prefix = "trading/order_gw",
+    deps = [
+        "//common",
+        # client_request.h / client_response.h live in the exchange
+        "//exchange/order_server",
+    ],
+    visibility = ["//visibility:public"],
+)

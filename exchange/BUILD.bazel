@@ -1,0 +1,10 @@
+cc_binary(
+    name = "exchange_main",
+    srcs = ["exchange_main.cpp"],
+    deps = [
+        "//common",
+        "//exchange/market_data",
+        "//exchange/matcher",
+        "//exchange/order_server",
+    ],
+)

@@ -1,0 +1,11 @@
+# Chapter 4 standalone examples — one binary per example file.
+# Each file has its own main(); they exercise the //common utilities directly.
+# Add a new entry here as you work through each section.
+[
+    cc_binary(
+        name = src.replace(".cpp", ""),
+        srcs = [src],
+        deps = ["//common"],
+    )
+    for src in glob(["*.cpp"])
+]

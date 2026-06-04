@@ -1,0 +1,17 @@
+cc_binary(
+    name = "hash_benchmark",
+    srcs = ["hash_benchmark.cpp"],
+    deps = ["//common"],
+)
+
+cc_binary(
+    name = "logger_benchmark",
+    srcs = ["logger_benchmark.cpp"],
+    deps = ["//common"],
+)
+
+cc_binary(
+    name = "release_benchmark",
+    srcs = ["release_benchmark.cpp"],
+    deps = ["//common"],
+)

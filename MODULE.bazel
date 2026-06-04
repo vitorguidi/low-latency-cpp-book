@@ -1,0 +1,4 @@
+module(
+    name = "low_latency_cpp",
+    version = "0.1.0",
+)

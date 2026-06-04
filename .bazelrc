@@ -1,0 +1,15 @@
+# C++ standard (matches book)
+build --cxxopt=-std=c++20
+
+# Warning flags (matches book's CMakeLists.txt)
+build --cxxopt=-Wall
+build --cxxopt=-Wextra
+build --cxxopt=-Werror
+build --cxxopt=-Wpedantic
+
+# Optimized build by default — this is a low-latency project
+build --compilation_mode=opt
+build --copt=-O3
+
+# Uncomment to enable native CPU optimizations (non-portable builds)
+# build --copt=-march=native

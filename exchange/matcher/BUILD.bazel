@@ -1,0 +1,8 @@
+cc_library(
+    name = "matcher",
+    hdrs = glob(["*.h"]),
+    srcs = glob(["*.cpp"]),
+    strip_include_prefix = "exchange/matcher",
+    deps = ["//common"],
+    visibility = ["//visibility:public"],
+)

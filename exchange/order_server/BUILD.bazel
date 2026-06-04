@@ -1,0 +1,8 @@
+cc_library(
+    name = "order_server",
+    hdrs = glob(["*.h"]),
+    srcs = glob(["*.cpp"]),
+    strip_include_prefix = "exchange/order_server",
+    deps = ["//common"],
+    visibility = ["//visibility:public"],
+)

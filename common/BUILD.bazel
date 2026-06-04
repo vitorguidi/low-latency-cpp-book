@@ -1,0 +1,12 @@
+cc_library(
+    name = "common",
+    # All .h files are exported so dependents can include them by basename,
+    # e.g. #include "lf_queue.h" (matches CMake include_directories style).
+    hdrs = glob(["*.h"]),
+    srcs = glob(["*.cpp"]),
+    # Strips the "common/" prefix so headers are included without the directory.
+    strip_include_prefix = "common",
+    # pthread is propagated transitively to all dependents.
+    linkopts = ["-lpthread"],
+    visibility = ["//visibility:public"],
+)
