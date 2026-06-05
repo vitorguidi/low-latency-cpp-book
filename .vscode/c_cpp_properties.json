@@ -1,17 +1,19 @@
 {
-    "configurations": [
-        {
-            "name": "Linux",
-            "includePath": [
-                "${workspaceFolder}/common",
-                "${workspaceFolder}/exchange",
-                "${workspaceFolder}/trading"
-            ],
-            "defines": [],
-            "compilerPath": "/usr/bin/g++",
-            "cppStandard": "c++20",
-            "intelliSenseMode": "linux-gcc-x64"
-        }
-    ],
-    "version": 4
+  "configurations": [
+    {
+      "name": "linux-clang-x64",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/common",
+        "${workspaceFolder}/exchange",
+        "${workspaceFolder}/trading"
+      ],
+      "defines": [],
+      "compilerPath": "/usr/bin/g++",
+      "cppStandard": "c++20",
+      "intelliSenseMode": "linux-clang-x64",
+      "cStandard": "${default}"
+    }
+  ],
+  "version": 4
 }
