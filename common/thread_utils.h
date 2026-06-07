@@ -8,6 +8,8 @@
 #include <sched.h>
 #include <sys/syscall.h>
 
+namespace Common {
+
 inline bool setThreadCore(int core_id) {
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
@@ -52,3 +54,5 @@ inline auto createAndStartThread(
 
     return t;
 }
+
+} // namespace Common
