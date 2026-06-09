@@ -69,7 +69,7 @@ namespace Common {
         return (setsockopt(fd, IPPROTO_IP, IP_TTL, reinterpret_cast<void *>(&ttl), sizeof(ttl)) != -1);
     }
 
-    inline auto join(int fd, const std::string &ip, const std::string &iface, int port) -> bool {
+    inline auto join(int fd, const std::string &ip, [[maybe_unused]] const std::string &iface, [[maybe_unused]] int port) -> bool {
         const ip_mreq mreq{{inet_addr(ip.c_str())}, {htonl(INADDR_ANY)}};
         return (setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) != -1);
     }

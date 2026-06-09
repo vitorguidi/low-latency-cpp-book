@@ -3,11 +3,15 @@
 #include <functional>
 
 #include "socket_utils.h"
-#include "logging.h"
+#include "logger.h"
+#include "time_utils.h"
 
 namespace Common {
 
     constexpr size_t TCPBufferSize = 64 * 1024 * 1024;
+
+    struct TCPSocket;
+    inline auto defaultRecvCallback(TCPSocket *socket, Nanos rx_time) noexcept -> void;
 
     struct TCPSocket {
         int fd_ = -1;
@@ -30,12 +34,12 @@ namespace Common {
         explicit TCPSocket(Logger &logger) : logger_(logger) {
             send_buffer_ = new char[TCPBufferSize];
             rcv_buffer_ = new char[TCPBufferSize];
-            recv_callback_ = [this](auto socket, auto rx_time) {
+            recv_callback_ = [](auto socket, auto rx_time) {
                 defaultRecvCallback(socket, rx_time);
             };
         }
 
-        auto TCPSocket::connect(const std::string &ip, const std::string &iface, int port, bool is_listening) -> int {
+        auto connect(const std::string &ip, const std::string &iface, int port, bool is_listening) -> int {
             destroy();
             fd_ = createSocket(logger_, ip, iface, port, false, false, is_listening, 0, true);
 
@@ -52,19 +56,19 @@ namespace Common {
         TCPSocket &operator=(const TCPSocket &) = delete;
         TCPSocket &operator=(const TCPSocket &&) = delete;
 
-        auto TCPSocket::destroy() noexcept -> void {
+        auto destroy() noexcept -> void {
             close(fd_);
             fd_ = -1;
         }
 
-        auto TCPSocket::send(const void *data, size_t len) noexcept -> void {
+        auto send(const void *data, size_t len) noexcept -> void {
             if (len > 0) {
                 memcpy(send_buffer_ + next_send_valid_index_, data, len);
                 next_send_valid_index_ += len;
             }
         }
 
-        auto TCPSocket::sendAndRcv() noexcept -> bool {
+        auto sendAndRcv() noexcept -> bool {
             char ctrl[CMSG_SPACE(sizeof(struct timeval))];
             struct cmsghdr *cmsg = (struct cmsghdr *) &ctrl;
             struct iovec iov;
@@ -92,7 +96,7 @@ namespace Common {
                 }
                 const auto user_time = getCurrentNanos();
 
-                logger_.log("%:% %() read socket:% len:% utime:% ktime:% diff:%n", __FILE__, __LINE__, __FUNCTION__,
+                logger_.log("%:% %() % read socket:% len:% utime:% ktime:% diff:%\n", __FILE__, __LINE__, __FUNCTION__,
                     Common::getCurrentTimeStr(&time_str_), fd_, next_rcv_valid_index_, user_time, kernel_time, (user_time - kernel_time));
                 recv_callback_(this, kernel_time);
             }
@@ -110,7 +114,7 @@ namespace Common {
                 logger_.log("%:% %() % send socket:% len:%\n",
                     __FILE__, __LINE__, __FUNCTION__,
                         Common::getCurrentTimeStr(&time_str_), fd_, n);
-            
+
                 n_send -= n;
                 ASSERT(n == n_send_this_msg, "Don't support partial send lengths yet.");
             }
@@ -124,14 +128,18 @@ namespace Common {
             delete[] rcv_buffer_; rcv_buffer_ = nullptr;
         }
 
-        auto defaultRecvCallback(TCPSocket *socket, Nanos rx_time) noexcept {
-            logger_.log("%:% %() % TCPSocket::defaultRecvCallback() socket:% len:% rx:%\n",
-                 __FILE__, __LINE__, __FUNCTION__, Common::getCurrentTimeStr(&time_str_),
-                    socket->fd_, socket->next_rcv_valid_index_, rx_time);
-        }
-
-        
-
     };
+
+    inline auto defaultRecvCallback(TCPSocket *socket, Nanos rx_time) noexcept -> void {
+        socket->logger_.log("%:% %() % TCPSocket::defaultRecvCallback() socket:% len:% rx:%\n",
+            __FILE__, __LINE__, __FUNCTION__, Common::getCurrentTimeStr(&socket->time_str_),
+            socket->fd_, socket->next_rcv_valid_index_, rx_time);
+    }
+
+    inline auto defaultRecvFinishedCallback(Logger &logger, std::string &time_str) noexcept -> void {
+        logger.log("%:% %() % TCPServer::defaultRecvFinishedCallback()\n",
+            __FILE__, __LINE__, __FUNCTION__,
+            Common::getCurrentTimeStr(&time_str));
+    }
 
 } // namespace Common
